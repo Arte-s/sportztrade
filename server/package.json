@@ -1,0 +1,32 @@
+{
+  "name": "trade_play_backend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server/src/index.js",
+    "startEnv": "node -r dotenv/config dist/server/src/index.js"
+  },
+  "author": "I and other",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^14.6.4",
+    "@types/validator": "^13.1.0",
+    "dotenv": "^8.2.0"
+  },
+  "dependencies": {
+    "@redis/client": "^1.2.0",
+    "@types/express": "^4.17.13",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mariadb": "^2.4.2",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
+    "path": "^0.12.7",
+    "redis": "^4.2.0",
+    "sequelize": "^6.3.5",
+    "ws": "^8.8.1"
+  }
+}
