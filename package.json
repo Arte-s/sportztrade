@@ -1,0 +1,22 @@
+{
+  "name": "tradePlay",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "client-build": "npm run build --prefix client",
+    "client-run": "npm run start --prefix client"
+  },
+  "author": "I and other",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/ws": "^8.5.3"
+  },
+  "dependencies": {
+    "caniuse-lite": "^1.0.30001585",
+    "create-hash": "^1.2.0",
+    "npm": "^10.4.0",
+    "react-router-dom": "^6.22.0",
+    "ts-node": "^10.8.1"
+  }
+}
