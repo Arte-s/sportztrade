@@ -1,0 +1,35 @@
+{
+	"compilerOptions": {
+		"target" : "esnext",
+		"module" : "esnext",
+		"moduleResolution": "node",
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"strictFunctionTypes": true,
+		"strictPropertyInitialization": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"allowJs": true,
+		//"checkJs": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+  		"lib": [
+			"ESNext"
+			//"ES2020",
+			//"dom"
+		],
+		"types": [
+    	],
+		"jsx": "react",
+		"plugins": [
+
+		],
+		"sourceMap": true
+	},
+	"exclude": [
+	],
+	"ts-node": {
+		//"transpileOnly": true,
+	},
+}

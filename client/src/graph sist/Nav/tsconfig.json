@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"target" : "ESNext",//ES2017
+		"module" : "ESNext",
+		//"module": "commonjs",
+		"moduleResolution": "node",
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"strictFunctionTypes": true,
+		"strictPropertyInitialization": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"allowJs": true,
+		//"checkJs": true,
+  		"lib": ["ESNext"], //, "Webworker"],
+    	"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"types": [
+			"node"
+    	],
+		"jsx": "react",
+		"plugins": [{ "name": "typescript-plugin-css-modules" }]
+    },
+	"exclude": [
+	],
+	"ts-node": {
+	},
+}

@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUncheckedIndexedAccess": false,
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "lib": [
+//      "dom",
+//      "dom.iterable",
+      "esnext"
+    ],
+    "plugins": [
+    ]
+  },
+  "include": [
+    "src/index.tsx",
+    //"src",
+    //"../srcCommon"
+  ],
+  "exclude": [
+    "node_modules",
+    "public",
+    "typings/browser",
+    "typings/browser.d.ts",
+    //"src/Nav",
+    "src/Nav/BaseTypes.d.ts",
+    "src/Nav/test*.ts",
+    "src/Nav/index*.ts",
+    "src/and/TesterNav.ts",
+    "src/SignalAPI/SignalAPI_new.ts",
+    "src/ind/zigParamsOld.ts",
+    "src/ind/Fibo_old.ts",
+    "src/ind/FiboBase_old.ts",
+    "src/ind/abolk/v3000i_test.ts",
+    "**/*_exclude.*"
+  ]
+}

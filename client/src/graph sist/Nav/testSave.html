@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+
+<!--	<div id="myDiv"></div>-->
+
+	<script src="./jquery-3.5.1.min"></script>
+
+	<script type="tsx">
+		import * as module from "./save";
+	</script>
+
+
+	<script type="module">
+
+		import * as _module from "./save";
+		/** type {module} */
+		const myModule = _module;
+
+		let rnd= Date.now() % 100;
+		let param= "myParam"+rnd;
+
+		//let div= document.getElementById('myDiv');
+
+		async function run()
+		{
+			// Запись
+			let value= new Date().toISOString();
+			let res = await myModule.Save(param, value);
+			alert("Saved:  "+ res);
+
+			// Чтение
+			value= await myModule.Load(param);
+			alert("Loaded value:  "+value);
+		}
+
+		run();
+
+	</script>
+
+</body>
+</html>

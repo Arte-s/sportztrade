@@ -1,0 +1,112 @@
+{
+  "name": "three",
+  "version": "0.126.0",
+  "description": "JavaScript 3D library",
+  "main": "../../../newcanvas/three/build/three",
+  "module": "../../../newcanvas/three/build/three.module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrdoob/three"
+  },
+  "sideEffects": false,
+  "files": [
+    "../../../newcanvas/three/build/three",
+    "build/three.min",
+    "build/three.module",
+    "examples/js",
+    "examples/jsm",
+    "examples/fonts",
+    "LICENSE",
+    "packageon",
+    "README.md",
+    "src"
+  ],
+  "directories": {
+    "doc": "../../../newcanvas/three/docs",
+    "example": "../../../newcanvas/three/examples",
+    "test": "../../../newcanvas/three/test"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": "mdcs",
+    "plugins": [
+      "html"
+    ],
+    "rules": {
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "prefer-const": [
+        "error",
+        {
+          "destructuring": "any",
+          "ignoreReadBeforeAssign": false
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "start": "npm run dev",
+    "test": "npm run test-lint && npm run test-unit",
+    "build": "rollup -c ../../../newcanvas/three/utils/build/rollup.config",
+    "dev": "concurrently --names \\\\\\\"ROLLUP,HTTP\\\\\\\" -c \\\\\\\"bgBlue.bold,bgGreen.bold\\\\\\\" \\\\\\\"rollup -c ../../../newcanvas/three/utils/build/rollup.config -w -m inline\\\\\\\" \\\\\\\"servez -p 8080\\\\\\\"",
+    "lint-fix": "eslint ../../../newcanvas/three/src --ext js --fix && eslint examples/js examples/jsm --ext js --ignore-pattern libs --fix",
+    "lint-docs": "eslint ../../../newcanvas/three/docs --ext html",
+    "lint-examples": "eslint ../../../newcanvas/three/examples/js examples/jsm --ext js --ignore-pattern libs",
+    "test-lint": "eslint ../../../newcanvas/three/src --ext js",
+    "test-unit": "npm run unit --prefix ../../../newcanvas/three/test",
+    "test-unit-examples": "npm run unit-examples --prefix ../../../newcanvas/three/test",
+    "test-e2e": "node ../../../newcanvas/three/test/e2e/puppeteer",
+    "test-e2e-cov": "node ../../../newcanvas/three/test/e2e/check-coverage",
+    "test-treeshake": "rollup -c ../../../newcanvas/three/test/rollup.treeshake.config",
+    "make-screenshot": "node ../../../newcanvas/three/test/e2e/puppeteer --make"
+  },
+  "keywords": [
+    "three",
+    "three",
+    "javascript",
+    "3d",
+    "virtual-reality",
+    "augmented-reality",
+    "webgl",
+    "webgl2",
+    "webaudio",
+    "webxr",
+    "canvas",
+    "svg",
+    "html5"
+  ],
+  "author": "mrdoob",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrdoob/three/issues"
+  },
+  "homepage": "https://threejs.org/",
+  "devDependencies": {
+    "@babel/core": "^7.13.8",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-env": "^7.13.9",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "concurrently": "^5.3.0",
+    "eslint": "^7.21.0",
+    "eslint-config-mdcs": "^5.0.0",
+    "eslint-plugin-html": "^6.1.1",
+    "rollup": "^2.40.0",
+    "rollup-plugin-filesize": "^9.1.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "servez": "^1.11.0"
+  },
+  "jspm": {
+    "files": [
+      "packageon",
+      "LICENSE",
+      "README.md",
+      "build/three",
+      "build/three.min",
+      "build/three.module"
+    ],
+    "directories": {}
+  }
+}

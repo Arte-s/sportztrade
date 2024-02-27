@@ -1,0 +1,43 @@
+{
+  "private": true,
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "target" : "esnext",
+    "module" : "esnext",
+    "moduleResolution": "node",
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "noEmit": true,
+    "jsx": "react", //react-jsx
+    "lib": ["esnext"], //,"Webworker","dom"],
+    "types": [
+    ],
+    "plugins": [
+    ]
+  },
+  "exclude": [
+    "node_modules", "bower_components", "jspm_packages"
+  ],
+  "ts-node": {
+  }
+}
+/*
+    "module" : "esnext",
+    "jsx": "react",
+    "moduleResolution": "classic",
+
+    "module" : "commonjs",
+    "jsx": "react",
+    "moduleResolution": "node",
+    */

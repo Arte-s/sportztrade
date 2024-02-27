@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../build/style/style.css" >
+    <link rel="stylesheet" href="style.css" >
+    <title>Settings</title>
+</head>
+<body>
+<div class="container">
+    <div class="content content_settings">
+        <header class="header">
+            <div class="menu"><a href="#" class="header__menu"></a>
+                <ul class="menu-list _hide">
+                    <li class="menu-list__item">
+                        <a href="#" class="menu-list__link menu-list__link_profile">Profile</a>
+                    </li>
+                    <li class="menu-list__item">
+                        <a href="../pages/settings.html"
+                                                   class="menu-list__link menu-list__link_settings">Settings</a></li>
+                    <li class="menu-list__item">
+                        <a href="#" class="menu-list__link menu-list__link_light">Light mode</a>
+                    </li>
+                    <li class="menu-list__item">
+                        <a href="#"
+                                                   class="menu-list__link menu-list__link_tutorials">Tutorials</a></li>
+                    <li class="menu-list__item">
+                        <a href="#" class="menu-list__link menu-list__link_website">Website</a>
+                    </li>
+                    <li class="menu-list__item">
+                        <a href="#" class="menu-list__link menu-list__link_support">Support</a>
+                    </li>
+                    <li class="menu-list__item">
+                        <a href="#" class="menu-list__link menu-list__link_logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            <h1 class="header__logo">
+                <a class="header__logo-image" href="#"></a>
+            </h1>
+        </header>
+        <a href="../build/index.html" class="back">Settings</a>
+        <div class="login-block login-block_settings">
+            <div class="login-block__i">
+                <form class="login-form" action="#">
+                    <p class="line-header">
+                        General Information
+                    </p>
+                    <div class="input input_mail line">
+                        <input id="email"
+                               type="email"
+                               class="input__elem"
+                               placeholder=""/>
+                        <label for="email" class="input__label">
+                            Email
+                        </label>
+                        <p class="input__valid">Verified</p>
+
+                    </div>
+                    <p class="line-header">
+                        Password Settings
+                    </p>
+                    <div class="input input_password line">
+                        <input id="password"
+                               type="password"
+                               class="input__elem"
+                               placeholder=""/>
+                        <label for="password" class="input__label">
+                            Current Password
+                        </label>
+                        <p class="input__note">
+                            At least 12 characters
+                        </p>
+                    </div>
+                    <div class="input input_password line">
+                        <input id="newPassword"
+                               type="password"
+                               class="input__elem"
+                               placeholder=""/>
+                        <label for="newPassword" class="input__label">
+                            New password
+                        </label>
+                        <p class="input__note">
+                            At least 12 characters
+                        </p>
+                    </div>
+                    <div class="input input_password line">
+                        <input id="confirmPassword"
+                               type="password"
+                               class="input__elem"
+                               placeholder=""/>
+                        <label for="confirmPassword" class="input__label">
+                            Confirm Password
+                        </label>
+                        <p class="input__note">
+                            At least 12 characters
+                        </p>
+                    </div>
+
+                    <div class="line line_actions">
+                        <button type="submit" class="login-btn login-btn_settings">Save</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

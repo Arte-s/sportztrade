@@ -1,0 +1,421 @@
+/*Pages*/
+.welcome {
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome__actions {
+    margin: 60px 0 0;
+}
+
+.login {
+    background: #0B101C;
+    background: linear-gradient(8.1deg, #131B2F -2.89%, rgba(49, 52, 74, 0.63) 16.21%, rgba(49, 52, 74, 0) 53.87%),
+    radial-gradient(88% 130.13% at 70.9% 0%, #EA580C 0%, rgba(234, 88, 12, 0) 100%);
+}
+
+.login__right {
+    background: #0B101C;
+    flex-direction: column;
+}
+
+.login__title {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.login__note {
+    color: #888696;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    margin: 26px 0 0;
+}
+
+.login__note_confirm {
+    position: relative;
+    margin: 0 0 44px;
+    padding: 100px 0 0;
+}
+
+.login__note_confirm:before {
+    content: '';
+    width: 80px;
+    height: 80px;
+    background: url('./images/mail2.svg') no-repeat center;
+    background-size: contain;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.login-btn {
+    font-size: 16px;
+    font-weight: 500;
+    color: #FFF;
+    background: #EA580C;
+    border:  1px solid #EA580C;
+    text-decoration: none;
+    display: block;
+    padding: 14px;
+    width: 250px;
+    text-align: center;
+    border-radius: 5px;
+    margin: 20px 0 0;
+    transition: .3s all linear;
+    cursor: pointer;
+}
+
+button.login-btn[type="submit"] {
+    background: #EA580C;
+    border:  1px solid #EA580C;
+}
+
+.login-btn_full {
+    width: 100%;
+}
+
+.login-btn:first-child {
+    margin-top: 0;
+}
+
+.login-btn:hover {
+    background: none;
+}
+
+.login-btn_brown {
+    background: #7A3E2A;
+    color: #EA580C;
+    border:  1px solid #7A3E2A;
+}
+
+button.login-btn_brown[type="submit"] {
+    background: #7A3E2A;
+    color: #EA580C;
+    border:  1px solid #7A3E2A;
+}
+
+.login-btn_google {
+    background: #21161B;
+    border: 1px solid #402119;
+}
+
+.login-btn_google span {
+    display: inline-block;
+    position: relative;
+    padding: 0 0 0 37px;
+}
+
+.login-btn_google span:before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background: url('./images/google.svg') no-repeat center;
+    background-size: contain;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+button[type="submit"].login-btn_settings {
+    background: #752C06;
+    border: 1px solid #752C06;
+}
+
+button[type="submit"].login-btn_settings:hover {
+    background: #170802;
+}
+
+.login-content {
+    flex-direction: row;
+}
+
+.login-block {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-block__i {
+    width: 79%;
+    margin: 0 auto;
+    background: #16131C;
+    border: 1px solid #402119;
+    border-radius: 10px;
+    padding: 50px;
+}
+
+.login-block svg {
+    width: 329px;
+}
+
+.login-form {
+    margin: 33px 0 0;
+}
+
+/*.login-form .input {*/
+/*    margin: 0 0 45px;*/
+/*}*/
+
+.login-form .input__label {
+    left: 43px;
+    font-size: 14px;
+    font-weight: 400;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: .3s all ease-in-out;
+}
+
+.login-form .input:invalid {
+    box-shadow: none;
+    outline: none;
+}
+
+.login-form .input__elem {
+    height: 48px;
+    padding: 0 43px;
+}
+
+.login-form .input__elem:focus + .input__label {
+    font-size: 12px;
+    transform: none;
+    top: -7px;
+    left: 21px;
+}
+
+.input_mail:before {
+    content: '';
+    width: 21px;
+    height: 14px;
+    background: url('./images/mail.svg') no-repeat center;
+    background-size: contain;
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+}
+
+.input_password.line {
+    margin-bottom: 49px;
+}
+
+.input_password:before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: url('./images/lock.svg') no-repeat center;
+    background-size: contain;
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+}
+
+.line {
+    margin: 0 0 45px;
+}
+
+.line_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.line_actions {
+    margin-top: -4px;
+    margin-bottom: 30px;
+}
+
+.line_separator {
+    text-align: center;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.line_separator:before {
+    content: '';
+    height: 1px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    background: #3A1A26;
+}
+
+.line_separator .text {
+    background: #16131C;
+    position: relative;
+    padding: 0 10px;
+}
+
+.line_google {
+    margin-bottom: 30px;
+}
+
+.line_notice {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.input-checkbox__label {
+    color: #888696;
+    font-size: 14px;
+    font-weight: 400;
+    position: relative;
+    padding: 0 0 0 27px;
+    cursor: pointer;
+}
+
+.input-checkbox__label:before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: #EA580C;
+    border-radius: 4px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.input-checkbox__elem {
+    display: none;
+}
+
+.input-checkbox__elem:checked + .input-checkbox__label:after {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: url('./images/check.svg') no-repeat center;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.input__valid {
+    display: none;
+    margin: 0 0 0 15px;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    background: linear-gradient(0deg, #0C3233, #0C3233),
+    linear-gradient(270deg, rgba(16, 184, 144, 0.2) 0%, rgba(16, 184, 144, 0) 100%);
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 500;
+    color: #10B890;
+    padding: 5px 4px 5px 20px;
+}
+
+.input__valid:before {
+    content: '';
+    width: 11px;
+    height: 11px;
+    background: #10B890 url('./images/check.svg') no-repeat center;
+    background-size: 8px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    transform: translateY(-50%);
+}
+
+.input__elem:valid ~ .input__valid {
+    display: block;
+}
+
+.link {
+    color: #EA580C;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: .3s all linear;
+    white-space: nowrap;
+}
+
+.link:hover {
+    opacity: .7;
+}
+
+.text {
+    color: #888696;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.line_notice .link {
+    font-size: 14px;
+}
+
+.line_notice .text {
+    padding: 0 10px 0 0;
+}
+
+.input__note {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    font-size: 12px;
+    font-weight: 400;
+    color: #888696;
+    margin: 0;
+    padding: 7px 16px;
+}
+
+.login-block_settings {
+    margin: 0 auto;
+    width: 700px;
+    max-width: 80%;
+}
+
+.login-block_settings .login-form {
+    width: 72%;
+    margin-left: 8%;
+}
+
+.login-block_settings .login-block__i {
+    width: 100%;
+}
+
+.line-header {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.back {
+    color: #FFF;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    position: absolute;
+    top: 66px;
+    left: 44px;
+    transition: .3s all linear;
+}
+
+.back:before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: url('./images/path.svg') no-repeat center;
+    background-size: contain;
+    position: absolute;
+    top: 50%;
+    left: -25px;
+    transform: translateY(-50%);
+}
+
+.back:hover {
+    opacity: .5;
+}
+

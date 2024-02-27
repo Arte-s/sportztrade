@@ -1,0 +1,43 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    //"ecmaVersion": 2020,
+    "sourceType": "module",
+    "createDefaultProgram": "true"
+    //"failOnError": false,
+    //"emitWarning": true
+  },
+  "plugins": [
+    "@typescript-eslint",
+    //"total-functions",
+    "react"
+  ],
+  "extends": [
+    //"react-app",
+    //"react-app/jest"ф
+    //"eslint:recommended",
+    //"plugin:@typescript-eslint/recommended",
+    //"plugin:total-functions/recommended"
+    "plugin:react/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-throw-literal": "off",
+    "@typescript-eslint/no-useless-concat": "off",
+    "@typescript-eslint/no-useless-constructor": "off",
+    "eqeqeq": "off",
+    "no-mixed-operators": "off",
+    //"@typescript-eslint/no-useless-constructor": "off",
+    "no-unused-vars": "off",
+    "no-lone-blocks": "off",
+    "no-throw-literal" : "off",
+    "new-parens" : "off", // требование скобок для new class()
+    "no-useless-concat": "off",
+    "semi": ["off"],
+    //"prefer-const": "warn",
+    //,"total-functions/no-unsafe-readonly-mutable-assignment": "error"
+    //"total-functions/no-unsafe-type-assertion": "warn"
+    "" : 0
+  }
+}

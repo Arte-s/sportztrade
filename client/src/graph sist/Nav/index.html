@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="Sun, 01 Jan 2014 00:00:00 GMT" />
+	<title>Tester</title>
+	<style>
+        * /*стиль для всех элементов*/
+        {
+			font-family: Verdana,sans-serif;
+            font-size: 11pt;
+        }
+        .child
+        {
+            display: inline-block;
+			//float: top;
+            vertical-align: top;
+			margin-right: 5pt;
+			margin-top: 10pt;
+        }
+		.header
+		{
+			font-weight: bold;
+		}
+        td {
+            /*padding: 5px; /* Поля вокруг текста */
+            /*border: 1px /* Граница вокруг ячеек */
+        }
+		p {
+			margin-top: 8pt;
+			margin-bottom: 8pt;
+		}
+
+        #parameters th, #parameters td {
+			border: 1px solid;
+		}
+
+        /* отобразить контент, связанный с выбранной радиокнопкой (input type="radio") */
+        #tabBtnTest:checked~#tabContentTest,
+        #tabBtnOpt:checked~#tabContentOptimization {
+            display: block;
+        }
+
+        #testControls .child,  #optimizControls .child {
+            margin-top: -10pt;
+		}
+
+		#optimizTable th
+		{
+            background-color: white;
+            position: sticky;
+            z-index: 100;
+            top: 0;
+		}
+
+		tr.selected td
+		{
+            background-color: black;
+			color: white;
+		}
+
+        @media screen and (orientation:landscape)
+        {
+            body
+            {
+
+            }
+        }
+
+		body {
+            -webkit-text-size-adjust: 100%;  /* Иначе в Гугл Хром сбиваются шрифты на мобильной версии */
+		}
+
+		/*Раскраска чётных рядов таблицы оптимизации*/
+		#optimizTableBody tr:nth-child(odd)
+		{
+            background-color: #fffff0;
+		}
+
+
+		.optimizInputRange {
+            /*width: 100%;*/
+			width: 120pt;
+            -webkit-appearance: none;
+            margin: 0;
+			margin-bottom: 20pt;
+
+        }
+        .optimizInputRange:focus {
+            outline: none;
+        }
+        .optimizInputRange::-webkit-slider-runnable-track {
+            /*width: 100%;*/
+            height: 19px;
+            cursor: pointer;
+            box-shadow: 0 4px 4px rgba(0,0,0,0.3) inset;
+            background: linear-gradient(to right, #005fc2, #FF0000);
+            border-radius: 20px;
+            border: 0.2px solid #010101;
+        }
+        .optimizInputRange::-webkit-slider-thumb {
+            box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+            border: 1px solid #000000;
+            height: 20px;
+            width: 20px;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -1px;
+        }
+
+        .select-checkbox option::before {
+            content: "\2610";
+            width: 1.3em;
+            text-align: center;
+            display: inline-block;
+        }
+        .select-checkbox option:checked::before {
+            content: "\2611";
+        }
+
+    </style>
+
+	<link rel="stylesheet" href="./font-awesome/css/all.css">
+
+	<link rel="stylesheet" href="./tabs.css">
+
+	<script src="./jquery-3.5.1.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="tsort/tsort.css">
+
+	<script src="./tsort/tsort.min.js"></script>
+
+<!--	Для отключения запроса favicon-->
+	<link rel="icon" href="data:,">
+
+<!--	<script type="text/javascript" src="./jquery.tablesorter.min"></script>-->
+
+
+
+
+	<style>
+        .multiselect {
+            width: max-content;
+        }
+
+        .selectBox {
+            position: relative;
+        }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .checkboxes {
+            display: none;
+            border: 1px #dadada solid;
+            overflow-y: auto;
+			resize: vertical;
+        }
+
+        .checkboxes label {
+            display: block;
+        }
+
+        .checkboxes label:hover {
+            background-color: #1e90ff;
+        }
+	</style>
+
+
+
+</head>
+
+<body>
+
+	<script>
+		/** @param{jQuery<HTMLSelectElement>} element
+		 *  @param{string[]} names
+		 */
+		function fillSelectorHTML(element, names) {
+			element.empty();
+			for(let name of names)
+				element.append(`<input type="checkbox"><option value="${name}">${name}</option>`);
+		}
+	</script>
+
+	<form id="form" style="">
+
+
+<!--		<div className="multiselect">-->
+<!--			<div className="selectBox"-->
+<!--				 onClick="$(this).parent().find('.checkboxes').toggle();  /*showCheckboxes()*/">-->
+<!--				<select>-->
+<!--					<option>${caption}</option>-->
+<!--				</select>-->
+<!--				<div className="overSelect"></div>-->
+<!--			</div>-->
+
+<!--			<div className="checkboxes" style=""-->
+<!--				 onMouseMove="let maxHeight= CalcElementContentHeight(this);  if (this.offsetHeight > maxHeight) this.style.height= maxHeight+'px'">-->
+<!--				<label htmlFor="one">-->
+<!--					<input type="checkbox" id="one"/>First checkbox</label>-->
+<!--				<label htmlFor="two">-->
+<!--					<input type="checkbox" id="two"/>Second checkbox</label>-->
+<!--				<label htmlFor="three">-->
+<!--					<input type="checkbox" id="three"/>Third checkbox</label>-->
+<!--			</div>-->
+<!--		</div>-->
+
+
+		<script>
+			/**@param{string} html
+			 * @return{HTMLElement}
+			 */
+			function createElementFromHTML(html) { let div= document.createElement("div"); div.innerHTML= html;  return div.children[0]; }
+
+
+			class MultiSelectCheckboxes {
+				/**@type{HTMLElement}*/
+				_element; // = createElementFromHTML(html);
+				_onClick;
+				_color;
+				_backgroundColor;
+				/**@type{HTMLInputElement}*/
+				_allCheckBox;
+				// /**@type{boolean}*/
+				// _stateChanged;
+				/**@type{HTMLElement}*/
+				get element() { return this._element; }
+				/**
+				 * @param {string} caption
+				 * @param {string[]} values
+				 * @param {boolean} checked
+				 * @param {function(HTMLInputElement)} onClick
+				 * @param {string|undefined} color
+				 * @param {string|undefined} backgroundColor
+				 */
+				constructor(caption= "Select an option", values=[], checked=false, onClick= (inputElement)=>{}, color=undefined, backgroundColor=undefined) {
+					let html= `
+						<div class="multiselect">
+							<div class="selectBox"
+								 onClick="$(this).parent().find('.checkboxes').toggle();">
+								<select>
+									<option>${caption}</option>
+								</select>
+								<div class="overSelect"></div>
+							</div>
+							<div class="checkboxes" style=""></div>
+						</div>
+					`;
+					this._element= createElementFromHTML(html);
+					$(this._element).find("div.checkboxes")[0].onmousemove= (e)=>{
+						let el= e.target;
+						let maxHeight= CalcElementContentHeight(el) + 1;// + el.style.paddingTop + el.style.paddingBottom;
+						let maxHeight2= parseInt(window.getComputedStyle(el).maxHeight);
+						if (maxHeight2!=null) maxHeight= Math.min(maxHeight, maxHeight2);
+						if (el.offsetHeight > maxHeight+12) el.style.height= maxHeight+'px'
+					}
+					this._onClick= onClick;
+					this._color= color;
+					for(let value of values) this.push(value, checked, onClick);
+				}
+				/**@type{JQuery<HTMLInputElement>|undefined}*/
+				get $checkboxes() { return $(this.element).find("input").not(".group"); }
+				/**@type{JQuery<HTMLElement>}*/
+				get $checkboxesParent() { return $(this.element).find(".checkboxes"); }
+				get values() { return this.$checkboxes?.val(); }
+				get selectedValues() { return $(this.element).find("input:checked").val(); }
+				/**@param{string} value*/
+				isSelected(value) { return this.$checkboxes?.filter((el)=>el.text()===value)?.[0]?.checked ?? false; }
+				/**
+				 *@param{string} value
+				 *@param {boolean} checked
+				 *@param{function(HTMLInputElement)|undefined} onClick
+				 *@param {string} color
+				 */
+				push(value, checked=false, onClick=undefined, color=undefined) {
+					color ??= this._color;
+					this.$checkboxesParent.append(
+						`<label style="${color ?'color:'+color :''}"><input type="checkbox" ${checked===true ?"checked" :""} value="${value}"/>${value}</label>`
+					);
+					onClick ??= this._onClick;
+
+					const getAllState = ()=>{
+						let elements= this.$checkboxes ?? [];
+						let status= elements[0]?.checked;
+						for(let el of elements) if (el.checked!==status) return -1;
+						return status;
+					}
+
+					const updateAllCheckboxState = ()=>{
+						if (!this._allCheckBox) return;
+						let state= getAllState();
+						this._allCheckBox.checked= state ? true : false;
+						this._allCheckBox.indeterminate = state===-1;
+						//console.log("STATE=",state, "checked=",state && state!==-1 ? true : false, "indeterminate=",state===-1);
+					}
+
+					this.$checkboxes.last()[0].onclick= (e)=> { updateAllCheckboxState();  onClick?.(e.target); }
+
+					if (!this._allCheckBox && this.$checkboxes.length>2) {
+						let element = createElementFromHTML(`<label style='color:white'><input type="checkbox" class="group" value="all"/>all</label>`);
+						/**@type{HTMLInputElement}*/
+						let allCheckbox= $(element).find("input")[0];
+						this.$checkboxesParent[0].insertBefore(element, this.$checkboxesParent[0].firstChild);
+						allCheckbox.onclick = ()=>{ this._allCheckBox= null;  for(let item of this.$checkboxes) if (item.checked!==allCheckbox.checked) item.click();  this._allCheckBox= allCheckbox; }
+						this._allCheckBox= allCheckbox;
+						updateAllCheckboxState();
+					}
+					return this;
+				};
+
+				clear() { this.$checkboxesParent.empty(); }
+			}
+
+			// /**@param{string} caption
+			//  * @param{string[]} elements
+			//  * @return{string}
+			//  */
+			// function CreateMultiSelectElementObject(caption="Select an option", elements= []) {
+			//
+			// MultiSelectElement_Clear()
+			// MultiSelectElement_AddValues()
+
+			// let element = new MultiSelectCheckboxes("My values", ["10", "20", "30"], (el)=>console.log(el.value, el.checked)).element;
+			//
+			// $("form")[0].insertBefore(element, null);
+		</script>
+
+
+
+
+
+
+		<script>
+			/**@param{HTMLElement} element
+			 * @return {number} */
+			function CalcElementContentHeight(element) { return [...element.children].reduce((prev, el)=>prev+$(el).outerHeight(true), 0); }
+		</script>
+
+
+		<div style="width:max-content">
+			<div class="header">
+				<label for="exchange">Источник</label>
+				<p><select id="exchange" size="1">  <!-- <select size="3" multiple name="hero[]"> -->
+					<!-- <option disabled>Выберите символ</option>-->
+					<option value="MsTrade" selected>MsTrade</option>
+				</select>
+				</p>
+
+				<script>
+					/** @param{string[]} names */
+					function SetExchanges(names) { fillSelectorHTML($("#exchange"), names); }
+				</script>
+
+			</div>
+			<div class="child header">
+				<label for="symbol">Symbol</label>
+				<label>
+				<input type="checkbox" style="margin-left:10pt;"
+					onchange="let s= $('#symbol')[0]; [s.multiple, s.size] = this.checked ? [true,3] : [false,1];  s.style.height='auto'">
+					<a style="font-weight: normal;">multi</a>
+				</label>
+				<p><select id="symbol" size="1" style="resize: vertical; overflow-y: scroll">  <!-- <select size="3" multiple name="hero[]"> -->
+					<!-- <option disabled>Выберите символ</option>-->
+					<option value="BTCUSD" selected>BTCUSD</option>
+					<option value="ETHUSD">ETHUSD</option>
+					<option value="LTCUSD">LTCUSD</option>
+					<option value="XRPUSD">XRPUSD</option>
+					</select>
+				</p>
+
+
+				<script>
+					/** @param{string[]} names */
+					function SetSymbols(names) { fillSelectorHTML($("#symbol"), names); }
+				</script>
+
+
+
+				<!--
+				<input type="text" name="example" list="exampleList">
+				<datalist id="exampleList">
+					<option selected value="BTCUSD">
+					<option value="ETHUSD">
+				</datalist>
+				-->
+			</div>
+			<div class="child header">
+				<label for="strategy">Strategy</label>
+				<p><select id="strategy" size="1">  <!-- <select size="3" multiple name="hero[]"> -->
+					<!-- <option disabled>Выберите стратегию</option>-->
+<!--					<option value="Moving Average">Moving Average</option>-->
+				</select></p>
+
+				<label for="fee">Комиссия</label>
+				<p style="margin: 0 0 10pt 0">
+					<input type="number" id="fee" style="width: 40pt;" value="0.1" min="0" step="0.01"> <!--onkeypress="this.step= Math.pow(10, lib.GetDblPrecision(this.value))">-->
+					<select id="feeType" style="min-width: 30pt; ">
+						<option selected>%</option>
+						<option >$</option>
+					</select>
+				</p>
+			</div>
+			<div class="child header">
+				<label for="startDate">Начало</label>
+				<p>
+					<input type="date" id="startDate" name="startDate" value="2021-01-01">
+				</p>
+<!--			</div>-->
+<!--			<div class="child header">-->
+				<label for="endDate">Конец</label>
+				<p>
+					<input type="date" id="endDate" name="endDate" value="2021-12-31">
+				</p>
+			</div>
+			<script>
+				function str(n) { return n<=9 ? '0'+n : ''+n; }
+				/**
+				 * @param{Date} date
+				 * @returns {string}
+				 */
+				function timeToStr_yyyymmdd_hhmm(date) { return date.getUTCFullYear()+"-"+str(date.getUTCMonth()+1)+"-"+str(date.getUTCDate())+" "+str(date.getUTCHours())+":"+str(date.getUTCMinutes()); }
+
+				function timeToStr_yyyymmdd(date) { return date.getUTCFullYear()+"-"+str(date.getUTCMonth()+1)+"-"+str(date.getUTCDate()); }
+
+
+				$("#endDate")[0].refs= timeToStr_yyyymmdd(new Date(Date.now() - 1440*60*1000))
+
+			</script>
+			<div class="child header">
+				<label for="tf">Таймфрейм</label>
+				<p><select id="tf" size="1">
+					<option>M1</option>
+					<option>M5</option>
+					<option>M15</option>
+					<option selected>H1</option>
+					<option>H4</option>
+					<option>D1</option>
+				</select>
+				</p>
+			</div>
+			<div class="child header">
+				<label for="parameters">Параметры стратегии</label>
+				<input id="fileInput" type="file" style="display:none;" />
+				<span style="margin-left: 10pt;">
+<!--					<button id="loadParams" type="button" onclick="$('#fileInput')[0].click();" disabled><i class='far fa-folder-open'></i></button>-->
+<!--					<button id="saveParams" type="button" onclick="$('#fileInput')[0].click();" disabled><i class='fas fa-save'></i></button>-->
+					<button id="loadParams" type="button" onclick=""><i class='far fa-folder-open' title="Загрузить"></i></button>
+					<button id="saveParams" type="button" onclick=""><i class='fas fa-save' title="Сохранить"></i></button>
+					<button id="resetParams" type="button" onclick=""><i class='fa fa-undo' title="Сбросить"></i></button>
+				</span>
+				<p>
+<!--					<table id="parameters" border=1px style="border-collapse:collapse; border-left:none ">-->
+					<table id="parameters" style="border-collapse:collapse;">
+						<thead id="parametersHeader">
+							<tr style="">
+								<th>Параметр</th>
+								<th style="width:50pt" id="paramValueHeader">Value</th>
+								<th style="width:50pt" class="cellParamOptim">Start</th>
+								<th style="width:50pt" class="cellParamOptim">End</th>
+								<th style="width:50pt" class="cellParamOptim">Step</th>
+								<th style="width:50pt;font-size:small" class="cellParamOptim">Progres.</th>
+								<th style="border: 0" class="cellParamOptim"></th>
+							</tr>
+						</thead>
+						<tbody id="paramTableBody" style="font-weight: normal;">
+						</tbody>
+					</table>
+
+
+					<script>
+						/** @param{HTMLTableRowElement} element
+						*/
+						function UpdateParamElement(tr) {
+							let checked= $(tr).find(".inputParamCheckBox")[0].checked;
+							$(tr).find('input[type=number]').not('.inputParamValue').toggle(checked);
+							$(tr).find('.inputParamValue').toggle(!checked);
+						}
+						/** Добавление параметра стратегии в таблицу
+						 * @param {string} name
+						 * @param {ParamValueInfoExt} info
+						 * @param {ValueInfo|null} valueInfo
+						 */
+						function AddStrategyParameterToTable(name, info, valueInfo=null) {
+							//let styleStr="style='text-align:center'";
+							//console.log(info);
+							console.assert(info!=null, "info=="+ typeof info + " для стратегии ",name);
+							let table = $("#paramTableBody");
+							let tr = document.createElement("tr");
+							//rows.push(`<tr><td>${point.time}</td> <td>${point.volume}</td> <td>${point.volumeTotal}</td></tr>`);
+							//.each((e)=>alert(e))
+							//console.log(info);
+							tr.innerHTML =
+								`
+								<td class="cellParamName">${name}</td>
+								<td><input class='inputParamValue inputParamNumber' type="number" style="text-align: center; border:0; width:50pt;" value='${info.single}'></td>
+								<td class="cellParamOptim"><input class='inputParamStart inputParamNumber' type="number" style="text-align: center; border:0; width:50pt" value='${info.start}'></td>
+								<td class="cellParamOptim"><input class='inputParamEnd inputParamNumber' type="number" style="text-align: center; border:0; width:50pt" value='${info.end}'></td>
+								<td class="cellParamOptim"><input class='inputParamStep inputParamNumber' type="number" style="text-align: center; border:0; width:50pt" value='${info.step}'></td>
+								<td class="cellParamOptim"><input class='inputParamProgres inputParamNumber' type="number" lang="en" min="1" step="0.0001" style="text-align: center; border:0; width:50pt" value='${info.progres??""}'></td>
+								<td class="cellParamOptim" style='border:0; text-align: right;'>
+									<input type="checkbox" class='inputParamCheckBox' ${info.checked!==false ?"checked" :""}">
+								</td>
+								<td class="cellParamOptim cellParamComboCount" style="border:0; padding-left: 10pt; font-style:italic; cursor:pointer"></td>
+								`; // ${info.checked ? "checked" : ""}>
+							//console.log($("#parametersHeader").find(".cellParamOptim")[0].style.display);
+							let optimizVisible= $("#parametersHeader").find(".cellParamOptim")[0].style.display!=="none";
+							if (!optimizVisible)
+								for(let el of tr.getElementsByClassName("cellParamOptim")) { el.hidden= true; }//optimizHidden ? "hidden" : undefined;}//if (optimizHidden) $(el).hide(); else $(el).show(); }
+							// function show(element, flag) { element.setAttribute("hidden",undefined); if (flag) $(element).show(); else $(element).hide(); }
+							//for(let el of tr.getElementsByClassName("cellParamOptim")) show(el, !optimizHidden); //{ el.hidden= optimizHidden;  el.style.display= optimizHidden ? undefined; } // el.setAttribute("hidden", optimizHidden ? )
+							// // console.log(tr.getElementsByClassName("cellParamOptim")[0]);
+							// show( $(tr).find(".inputParamValue")[0], optimizHidden);//  .hidden= !optimizHidden;
+							//if (info.checked) $(tr).find('input[type=number]').toggle();
+							//if (info.checked) $(tr).find('input[type=number]').toggle();
+							//if (info.checked) $(tr).find("cellParamOptim").show();
+							$(tr).find(".inputParamCheckBox")[0].checked= info.checked!==false;
+							$(tr).find(".inputParamCheckBox")[0].onchange= ()=>UpdateParamElement(tr);
+							if (optimizVisible)
+								UpdateParamElement(tr); //.find(".inputParamCheckBox")[0].onchange();
+							//else  $(tr).find("cellParamOptim").hide();
+
+							let inputValuesElements= $(tr).find(".inputParamValue,.inputParamStart,.inputParamEnd");
+							//console.log(name, valueInfo?.min);
+							let stepElement= $(tr).find(".inputParamStep")[0];
+
+							if (valueInfo) {
+								if (valueInfo.min!=null)
+									inputValuesElements.each((i,el) => el.min= valueInfo.min);
+								if (valueInfo.max!=null)
+									inputValuesElements.each((i,el) => el.max= valueInfo.max);
+								if (valueInfo.step!=null) {
+									inputValuesElements.each((i, el) => el.step= valueInfo.step);
+									stepElement.step= valueInfo.step;
+									stepElement.min= stepElement.step;
+								}
+								if (valueInfo.max!=null)
+									stepElement.max= valueInfo.step ? Math.ceil((valueInfo.max - valueInfo?.min??0)/valueInfo.step) * valueInfo.step : valueInfo.max;
+							}
+							// let checkbox= $(tr).find(".inputParamCheckBox")[0];
+							// if ((checkbox.checked===true) !== (info.checked===true)) {
+							// 	checkbox.checked= info.checked===true;
+							// 	checkbox.onchange();
+							// 	//console.log("click");
+							// }
+							//tr.style.textAlign= 'right';
+								//`<td>${timeStr}</td> <td ${styleStr}>${point.volume}</td> <td>${point.price}</td> <td ${styleStr}>${point.volumeTotal}</td>`;
+							table.append(tr);
+						}
+
+						function ClearStrategyParameterTable() {
+							$("#paramTableBody").empty();
+						}
+
+						//AddStrategyParameterToTable('1st MA period', 10,  1, 20, 1, 1.1);
+						//AddStrategyParameterToTable('2nd MA period', 20,  5, 100, 5, 1.1);
+					</script>
+
+				</p>
+			</div>
+		</div>
+
+		<!-- ВКЛАДКИ -->
+		<div class="tabs" style="float: left">
+<!--			<input type="radio" name="tab-btn" id="tabBtnTest" value="" checked  onchange="$('.inputParamCheckBox:checked').trigger('click');  $('.cellParamOptim').hide();">-->
+			<input type="radio" name="tab-btn" id="tabBtnTest" value="" checked  onchange="$('.cellParamOptim').hide();  $('.inputParamValue').show()">
+			<label for="tabBtnTest">Тестирование</label>
+			<script>let __OptTabWasClicked= false; </script>
+<!--			<input type="radio" name="tab-btn" id="tabBtnOpt" value=""  onchange="$('.cellParamOptim').show();  if (!__OptTabWasClicked) $('.inputParamCheckBox:not(:checked)').trigger('click');   __OptTabWasClicked=true;">-->
+			<input type="radio" name="tab-btn" id="tabBtnOpt" value=""  onchange="$('.cellParamOptim').show();  $('tr:has(.inputParamValue)').each((i, el)=>UpdateParamElement(el))">
+			<label for="tabBtnOpt">Оптимизация</label>
+
+			<script> $('.cellParamOptim').hide() </script>
+
+			<!-- ВКЛАДКА ТЕСТА -->
+			<div id="tabContentTest" style="width:max-content">
+				<!-- ЗАПУСК ТЕСТА -->
+				<div id="testControls" style="left:230pt; position: relative">
+					<div class="child">
+						<p><input id="startBtn" type="submit" value="Старт" style="font-size:medium" onsubmit=''></p>
+					</div>
+					<div class="child" style="margin-left: 15pt">
+						<p><input type="checkbox" id="visualModeCB" onchange='{$("#speedDiv").toggle(); $("#pauseBtn").toggle()}' checked>
+							визуал. режим
+						</p>
+					</div>
+					<div class="child" id="speedDiv" style="margin-left: 15pt;">
+						<p style="vertical-align: top; height: 1pt;  margin-block: 0">
+							<label for="speed" style="vertical-align: top; height: 3pt;">скорость</label>
+							<p><input id="speed" type="range" min="0" max="100" step="1" value="50" style="margin-top: 3pt"></p>
+						</p>
+					</div>
+
+					<div class="child">
+						<p>
+		<!--				<input id="pauseBtn" type="button" class="child" value="&#x23f8;&#xFE0E;" style="font-size:medium; font-family: 'Segoe UI Symbol'; font-weight: bold" disabled>-->
+						<button id="pauseBtn" type="button" class="fa fa-pause" style="font-size:large" disabled></button> <!-- type="button" for not submitting a form on click -->
+		<!--				<i class="fa fa-pausfe"></i>-->
+						</p>
+					</div>
+					<script>$("#visualModeCB:checked").trigger('click');  </script>
+
+					<!--			<p class="child"><button id="pauseBtn" style="font-size:medium; font-family: 'Segoe UI Symbol'; font-weight: bold">-->
+		<!--				<span style="padding-bottom: 2pt;>&#x23f8</span></button></p>-->
+					<!--<p class="child"><input id="pauseBtn2" type="button" value="&#x25B6" style="font-size:medium; width:30pt;height:20pt; font-weight: bold"></p>-->
+				</div>
+				<div style="margin-top:-20pt"><progress id="testProgressBar" max="100" value="0" style="width:150pt">Статус тестирования</progress></div>
+
+				<div style="margin-top: 0pt; width: max-content">
+
+				<!-- ТАБЛИЦА СДЕЛОК -->
+					<div class="child" style="margin-right: 10pt; ">
+						<label style="font-size: large;">Торговля</label>
+						<div style="margin-top:-15pt; text-align:right; min-width: 80pt">
+							<input type="button" value="X" style="text-align:right;font-size:xx-small; padding:1px 2px 1px 2px;" onclick="$('#tradeTable').toggle();  this.refs = $('#tradeTable')[0].style.display==='none' ?'...' :'X'">
+						</div>
+						<table id="tradeTable" border="1px" style="margin-top:5pt; resize: horizontal; overflow: hidden">
+							<tr>
+								<th style="min-width:70pt">Время</th>
+								<th style="" id="tradeTableHeaderSymbol">Символ</th>
+								<th style="">Объём<br>сделки</th>
+								<th style="">Цена</th>
+								<th style="">Объём<br>позиции</th>
+							</tr>
+							<tbody id="tradeTableBody">
+							<tr>
+								<td> </td>
+								<td> </td>
+								<td> </td>
+								<td> </td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<script>
+
+						//class TradeData {time; volume; volumeTotal }
+						/**
+						 * @param{SymTradeData[]} array
+						 * @param{function(string)} onclick
+						 */
+						function AddTradesToTable(array= [], onclick=null) {
+							//let rows= [];
+							let table = $("#tradeTableBody");
+							//table.empty();  // очистка
+							let styleStr="style='text-align:center'";
+							function dblToStr(value) { return DblToStrAuto ? DblToStrAuto(value, -4) : value }
+							for (let point of array) {
+								let tr = document.createElement("tr");
+								//rows.push(`<tr><td>${point.time}</td> <td>${point.volume}</td> <td>${point.volumeTotal}</td></tr>`);
+								let timeStr = point.time instanceof Date ? timeToStr_yyyymmdd_hhmm(point.time) : point.time;
+								//console.log(point.time," -> ",timeStr);
+								tr.innerHTML =
+									`<td style="cursor: pointer">${timeStr}</td>
+									<td ${$('#tradeTableHeaderSymbol')[0].hidden ? "hidden" : ""}>
+										${point.symbol}</td>
+									<td ${styleStr}>${dblToStr(point.volume)}</td>
+									<td>${point.price}</td>
+									<td ${styleStr}>${dblToStr(point.volumeTotal)}</td>`;
+								tr.onclick= function() {
+									//alert($(this).text());
+									$(this).addClass('selected').siblings().removeClass('selected');
+									//let timeStr = $(this).find('td:first').html();
+									if (onclick) onclick(timeStr);
+									//alert(value);
+								};
+								table.append(tr);
+							}
+							/*
+							$("#tradeTableBody tr")[0].onclick= function(){
+								$(this).addClass('selected').siblings().removeClass('selected');
+								let value=$(this).find('td:first').html();
+								alert(value);
+							};
+							*/
+
+						}
+
+
+
+						/**@param{boolean} useSymbols
+						 */
+						function InitTradeTable(useSymbols) { $("#tradeTableBody").empty();  $("#tradeTableHeaderSymbol")[0].hidden=!useSymbols; }//.toggle(false); }// alert($("#tradeTableHeaderSymbol")[0].style.display); }
+
+						InitTradeTable(false);
+						//InitTradeTable(false);
+
+						function FillTradeTable(array= [],  onclick=null) { InitTradeTable();  AddTradesToTable(array, onclick); }
+							//alert($("#tradeTableBody"));
+							//alert(rows);
+							//alert($("#tradeTableBody"));
+							//$("#tradeTableBody").innerHTML= rows.join("");
+							//alert(rows.join("")); //$("#tradeTableBody").innerHTML)
+
+						//FillTradeTable([{time: 100, volume: 1, volumeTotal: 10}]);
+					</script>
+					<div class="child" style="margin-top:0;">
+
+						<!-- ГРАФИКИ -->
+						<div id="chartsDiv" class="child" style="min-width: 800px;  resize: horizontal; overflow: hidden">
+							<label style="font-size: large;  text-align: right">График</label>
+							<div id="quotesChartParent" style="position:relative">
+								<p id="quotesChartName" style="position: absolute; z-index: 999; color: white; margin-top:8pt; margin-left:4pt;">Symbol</p>
+								<div id="quotesChart" style="width:100%;  height: 250px; border:1px solid; margin-top:5pt; background: black;"></div>
+							</div>
+							<div id="equityChartParent" style="position:relative">
+								<div id="equityChartName" style="position: absolute; z-index: 999; color: white; margin: 5pt">Equity</div>
+								<div id="equityChart" style="width:100%;  height: 250px; border:1px solid; margin-top:5pt; background: black; ">;</div>
+							</div>
+						</div>
+
+						<script>
+							/**@param{string} idChartName
+							 * @param{string} idChart
+							 * @param{string} name
+							 */
+							function newChartHTML(idChartName, idChart, name) {
+								return `<p ${idChartName ? "id='"+idChartName+"'" : ""} class='chartName' style="position: absolute; z-index: 999; color: white; margin-top:8pt; margin-left:4pt;">${name}</p>
+								<div ${idChart ? "id='"+idChart+"'" : ""} class='chart' style="width:100%;  height: 250px; border:1px solid; margin-top:5pt; background: black;">`;
+							}
+							/** //@param{string} id
+							 * @param{string} name
+							 * @param{string} className
+							 * @return{HTMLElement}
+							 */
+							function _AddChartDiv(className, name) {
+								let html= `<div ${className ? "class='"+className+"'" : ""} style="position:relative">${newChartHTML(null, null, name)}</div>`;
+								$("#chartsDiv").append(html);
+								return $("#chartsDiv")[0].lastChild;
+							}
+							$("#quotesChartParent").innerHTML = newChartHTML("quotesChartName", "quotesChart", "Symbol");
+							$("#equityChartParent").innerHTML = newChartHTML("equityChartName", "equityChart", "Equity");
+
+							function AddQuotesChart(name) { return _AddChartDiv("quotesChartParent userChartParent", name).lastChild; }
+							function AddEquityChart(name) { return _AddChartDiv("equityChartParent userChartParent", "Equity: "+name).lastChild; }
+
+							function ClearUserCharts() { $(".userChartParent").remove(); }
+						</script>
+
+						<!-- СТАТИСТИКА -->
+						<div id="statisticsDiv" class="child" style="">
+							<label style="font-size: large;">Статистика</label>
+							<div id="statisticsTables" style=""></div>
+<!--							<table id='mainStatisticsTable' class="statisticsTable" border="1px" style="margin-top:5pt">-->
+<!--								<tbody id="statisticsTableBody" class="statisticsTableBody">-->
+<!--								<tr>-->
+<!--									<td> </td>-->
+<!--									<td> </td>-->
+<!--								</tr>-->
+<!--								</tbody>-->
+<!--							</table>-->
+							</div>
+						<script>
+						{
+							/**@param {HTMLElement}body
+							 */
+							function AddNewStatisticTableFromBody(body) {
+								let chartHeight= $("#equityChart").height();
+								let tableHtml=`
+								<table class="statisticsTable" border="1px" style="margin-top:5pt;">
+								</table>
+								`;
+								let div= document.createElement("div");
+								div.innerHTML = tableHtml;
+								div.style.minHeight= (chartHeight*2 + 30)+"px"
+								//console.log(div.firstChild);
+								let table= div.children[0]; //$(div).children()[0];
+								if (body) table.append(body);
+								$("#statisticsTables")[0].append(div);
+								return table;
+							}
+
+							AddNewStatisticTableFromBody(null);
+
+
+							let __lastWidth = 0;
+							let __defaultPos= $("#statisticsDiv").position().left+80;
+
+							function AdjustStatisticsTablePosition() {
+								let width = "max-content";
+								//alert(window.innerWidth+"  "+window.outerWidth);
+								if (Math.min(window.innerWidth) < __defaultPos || window.screen.orientation.type==="portrait-primary")
+									width = '100%';
+								//console.log(window.screen.orientation);
+								if (width !== __lastWidth) $("#statisticsDiv")[0].style.width = width;
+								__lastWidth = width;
+							}
+							AdjustStatisticsTablePosition();
+							window.onresize = () => AdjustStatisticsTablePosition(); // {alert(($("#statisticsDiv").position().left +"  "+window.innerWidth+" "+ window.outerWidth)); }
+						}
+						</script>
+					</div>
+				</div>
+			</div>
+
+			<!-- ВКЛАДКА ОПТИМИЗАЦИИ -->
+			<div id="tabContentOptimization" style="width: max-content">
+				<div id="optimizControls" style="left:230pt; position: relative;">
+					<div class="child">
+						<p><input id="startOptimizBtn" type="submit" value="Старт" style="font-size:medium;" onsubmit=''></p>
+					</div>
+					<div class="child" style="margin-left:10pt;">
+						<p style="display:block; width: 750pt;">
+							<label>Число потоков:
+								<select id="threadsCountInput" size="1"> <!-- <select size="3" multiple name="hero[]"> -->
+	<!--							<option value="-">-</option>-->
+									<option value="1">1</option>
+								</select>
+							</label>
+							<span style="margin-left: 30pt">Число комбинаций:</span>
+							<span id="paramComboCount" style="">-</span>
+							<label>
+								<input id="onlyPositiveResults_checkBox" type="checkbox" style="margin-left: 15pt" checked>
+								Сохранять только положительные
+							</label>
+							<div>
+								<label style="vertical-align: top">
+									<input id="genetic_checkBox" type="checkbox" onchange="$('#threadsCountInput')[0].style.visibility= this.checked ? 'hidden' : 'visible'">
+									Генетический алгоритм
+								</label>
+								<div style="display: inline-block; margin-left: 3pt">
+									<button class="fa fa-wrench" type="button" onclick="$('#geneticConfig').toggle()"></button>
+									<table id="geneticConfig" style="border: 1px dotted;" hidden>
+									<tr><td>Размер популяции: </td><td><input id="geneticPopulation" type="number" value="250" min="1" style="width:50pt"></td></tr>
+									<tr><td>Вероятность скрещиваний: </td><td><input id="geneticCrossProb" type="number" value="90" min="0" max="100" style="width:25pt">%</td></tr>
+									<tr><td>Вероятность мутаций: </td><td><input id="geneticMutateProb" type="number" value="20" min="0" max="100" style="width:25pt">%</td></tr>
+									<tr><td>Число неулучшающихся поколений: </td><td><input id="geneticStopEpochs" type="number" value="5" min="1" style="width:25pt"></td></tr>
+									<tr><td>Минимальное число сделок: </td><td><input id="geneticMinTradesCount" type="number" value="0" min="0" style="width:25pt"></td></tr>
+									<tr><td>Критерий: </td><td>
+										<select id="geneticCriterio" size="1">  <!-- <select size="3" multiple name="hero[]"> -->
+											<option value="profit">Прибыль</option>
+											<option value="sharpCoef">Коэф.Шарпа</option>
+											<option value="recoveryFactor">Фактор восстановления</option>
+										</select></p>
+									</td></tr>
+									</table>
+								</div>
+							</div>
+						</p>
+
+						<script>
+							/**@return {MyGeneticParams}
+							 */
+							function GetGeneticConfig()
+							{
+								/**@type{MyGeneticParams}*/
+								let config= {};
+								config.populationSize= Number($("#geneticPopulation").val());
+								config.crossoverProbability= Number($("#geneticCrossProb").val())/100;
+								config.mutationProbability= Number($("#geneticMutateProb").val())/100;
+								config.badEpochs= Number($("#geneticStopEpochs").val());
+								config.minTradesCount= Number($("#geneticMinTradesCount").val());
+								config.criterio = ["profit", "sharpCoef", "recoveryFactor"].find((value)=>$("#geneticCriterio").val()==value);
+								console.assert(config.criterio!==undefined);
+								return config;
+							}
+						</script>
+
+						<script> for(let i=2; i<=navigator.hardwareConcurrency; i++) $('#threadsCountInput').append(`<option value="${i}">${i}</option>`); </script>
+
+						<script> function UpdateParamComboCount() { } </script>
+					</div>
+
+				</div>
+
+				<div class="child" style="min-width: 170pt; margin-right: 10pt;">
+					<div id="optimizStatus" style="display:block; margin-top:3pt; visibility:hidden">
+						<progress id="optimProgressBar" max="100" style="width: 150pt">Статус выполнения</progress>
+						<div id="optimizStatusText" style="white-space:pre;">status</div>
+
+<!--						<div id="opimizCriterioChart">-->
+<!--							<canvas id="optimizCriterioChartCanvas"></canvas>-->
+<!--						</div>-->
+
+						<div id="optimizParamRangesDiv" style="display:inline-block; position:absolute; margin-left: 10pt; margin-top: 20pt">
+							<!--							<div><label>Param1-->
+							<!--								<input class="optimizInputRange" type="range">-->
+							<!--							</label></div>-->
+							<!--							<div><label>Param2-->
+							<!--								<input class="optimizInputRange" type="range">-->
+							<!--							</label></div>-->
+						</div>
+					</div>
+
+<!--					<canvas id="testCanvas" width="550" height="450"></canvas>-->
+
+					<script>
+						//let canvas = document.getElementById( "testCanvas" );
+
+						//const dataArr = [ 6, 8, 10, 12, 11, 7, 5, 8 ];
+
+						//DrawChart(canvas, dataArr);
+
+						/**
+						 * @param {HTMLCanvasElement} canvas
+						 * @param {number[]} dataArr
+						 */
+						function DrawCanvasChart(canvas, dataArr)
+						{
+							let context = canvas.getContext("2d");
+
+							const arrayLen = dataArr.length;
+							// calculate max and min
+							let [max, min] = dataArr.reduce(([max,min], value)=>[Math.max(max,value), Math.min(min,value)], [Number.MIN_VALUE, Number.MAX_VALUE]);
+
+							const GRAPH_HEIGHT = canvas.height; //350;
+							const GRAPH_WIDTH = canvas.width; // 450;
+
+							const GRAPH_TOP = 0; //25;
+							//const GRAPH_BOTTOM = 375;
+							const GRAPH_LEFT = 0; //25;
+
+							context.beginPath();
+							// make your graph look less jagged
+							//context.lineJoin = "round";
+							context.strokeStyle = "black";
+							context.lineWidth = 2;
+							function norm(value) { return value; }//return Math.round(value); };
+							// add first point in the graph
+							context.moveTo( GRAPH_LEFT, norm( GRAPH_HEIGHT - dataArr[ 0 ] / max * GRAPH_HEIGHT ) + GRAPH_TOP );
+							let range= max!==min ? max-min : 1;
+							// loop over data and add points starting from the 2nd index in the array as the first has been added already
+							for(let i= 1; i<arrayLen; i++){
+								context.lineTo( norm(GRAPH_WIDTH / arrayLen * i + GRAPH_LEFT), norm( GRAPH_HEIGHT - (dataArr[i] - min) / range * GRAPH_HEIGHT ) + GRAPH_TOP );
+							}
+							// actually draw the graph
+							context.stroke();
+						}
+					</script>
+				</div>
+				<!-- ТАБЛИЦА ОПТИМИЗАЦИИ -->
+<!--				<div class="child" style="margin-right: 10pt; margin-left: 200pt">-->
+				<div class="child" style="margin-right: 10pt;">
+					<label style="font-size: large;">Результаты оптимизации
+<!--						<div id="optimizStatus" style="display:block; margin-top:3pt; float:right; visibility:hidden; white-space:pre;">status</div>-->
+					</label>
+					<div style="">
+					<table id='optimizTable' class="tsort" border="1px" style="margin-top:5pt; text-align: right; display: inline-block">
+						<thead>
+							<tr>
+								<th style="" class="sel">№</th>
+								<th style="">Прибыль</th>
+								<th style="">Просадка</th>
+								<th style="">Факт.восст.</th>
+								<th style="">Коэф.Шарпа</th>
+								<th style="">Cделки</th>
+								<th style="">Параметры</th>
+								<th style="">График</th>
+							</tr>
+						</thead>
+						<tbody id="optimizTableBody">
+						<tr>
+						</tr>
+						</tbody>
+					</table>
+
+						<div class="child" id="" style="margin-left: 20pt; width: 400px">
+							<p id="optimizItemChartName" style="position: absolute; z-index: 999; color: white; margin-top:8pt; margin-left:4pt;">Profit</p>
+							<div id="optimizItemChartDiv" style="width:100%;  height: 250px; border:1px solid; margin-top:5pt; background: black">
+							</div>
+						</div>
+
+
+					<script>
+						/**@param{number}value
+						* @param{number}maxPrecis
+						*/
+						function DblToStrAuto(value, maxPrecis) { throw("DblToStrAuto is not defined");  return 0; }
+					</script>
+
+					<script type="module"> import { DblToStrAuto as _DblToStrAuto} from "./Common";  DblToStrAuto= _DblToStrAuto; </script>
+
+
+					<script>
+
+						$( document ).ready(function() {
+							$('.tsort').tsort();
+						});
+
+						/** Запустить тестирование с выбранными параметрами
+						 * @param{number[]} params
+						 */
+						function RunTestParams(params) {
+							$("#tabBtnTest").trigger('click');
+							//ClearStrategyParameterTable();
+							let paramInputs= [...$("#parameters .inputParamValue")];
+							if (paramInputs.length !== params.length) { throw("Wrong parameters count"); }
+							for(let i=0; i<paramInputs.length; i++) paramInputs[i].refs= params[i];
+							if ($("#visualModeCB")[0].checked) $("#visualModeCB").trigger('click');
+							$("#startBtn").trigger('click');
+							//document.OnClickStartBtn(false);
+							//$("#optimizItemChartDiv")
+							//for(let param of params) (//AddStrategyParameterToTable(param, 0, 0, 0);
+						}
+
+						// $(document).ready(function()
+						// 	{
+						// 		$("#optimizTable").tablesorter();
+						// 	}
+						// );
+
+						/** Добавить результат в таблицу оптимизации
+						 * @param {number[]} params
+						 * @param {TradeStatistics} statistics
+						 * @param {number[]} equityValues
+						 */
+						function AddResultToOptimizTable(params, statistics, equityValues =null)
+						{
+							let table = $("#optimizTableBody");
+							let i= table.children().length+1;
+							let tr = document.createElement("tr");
+							function valToStr(val) { return val!==undefined ? DblToStrAuto(val, -4) : "-"; }
+							tr.innerHTML =
+								`
+								<td>${i}</td>
+								<td>${valToStr(statistics.resultProfit)}</td>
+								<td>${valToStr(statistics.maxDrawdown)}</td>
+								<td>${valToStr(statistics.recoveryFactor)}</td>
+								<td>${valToStr(statistics.sharpCoef)}</td>
+								<td>${valToStr(statistics.trades)}</td>
+								<td>${params.map((param)=>DblToStrAuto(param,-8)).join(", ")}</td>
+								<td><canvas style="width: 50pt; height: 10pt"></canvas></td>
+								<td class='optResultButtonCell' style="border:0; padding-top:0;padding-bottom:0" hidden><button type='button' style="">тест</button></td>
+								`;
+							$(tr).find('button').on('click',()=>RunTestParams(params));
+
+							let canvas= $(tr).find("canvas")[0];
+							if (equityValues) { DrawCanvasChart(canvas, equityValues);  } //console.error(equityValues);
+
+							//$(tr)[0].style.backgroundColor= i%2===1 ? "#FFFFF0" : "#FFFFFF";
+							//tr.style.border='0';
+							//tr.append("<button type='button'>тест</button>");
+							//tr.onmouseenter= ()=>tr.append('<p>hi '+i+'</p>');//=>console.log(i);
+							//tr.onmouseleave= ()=>tr.lastChild.remove();
+							table.append(tr);
+						}
+
+						function ClearOptimizTable() {
+							$("#optimizTableBody").empty();
+							$("#optimizTable thead th").removeClass("sel");
+							$("#optimizTable thead tr :first-child").addClass("sel");
+						}
+					</script>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</form>
+
+</body>
+
+
+	<script>
+		function js_alert(args) { alert(args); }
+		function js_print(args) { console.log(args);}
+		//console.log("!!");
+		//alert("!!!");
+	</script>
+
+
+	<!--<script src="/Tester"></script>-->
+	<!--<script type="module" src="/Strategy"></script>-->
+	<!--<script type="module" src="/Tester"></script>-->
+
+<!--	<script src="/Chart_amCharts"></script>-->
+<!--	<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min"></script>-->
+
+<!--	<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production"></script>-->
+<!--	<script src="/Chart/lightweight-charts.standalone.development"></script>-->
+	<script>
+
+	</script>
+
+	<script type="tsx">
+		//import type {Number, HTMlElement} from "@types"
+		import * as MSTrade from "./Data_MSTrade";
+		import * as lib from "./Common";
+		type lib_type = typeof lib;
+
+		import * as Time from "./Time";
+		type Time_type= typeof Time;
+
+		import * as MyTester from "./myTester"
+		type MyTester_type= typeof MyTester;
+
+		type CParamStepper= MyTester.CParamStepper;
+
+		import { MyGeneticParams } from "./Optimizer"
+
+		import * as Param from "./ParamOld"
+
+		import { IStrategy } from "./Strategy";
+
+		import type { Period } from "./Time";
+
+		interface HTMLElement { }
+		interface String { }
+		interface JQuery<T> { }
+
+		declare function $(arg :string) : JQuery<HTMLElement>;
+
+		import * as Module from "./index2";
+		type Module_type= typeof Module;
+
+		import type {SourceAPI} from "./index2";
+		import {DblToStrAuto} from "./Common";
+	</script>
+
+
+
+	<script async type="module">
+		/**
+		 * @type{Module_type}
+		 */
+		import * as Module from "./index2";
+		/**
+		 * @type{lib_type}
+		 */
+		import * as lib from "./Common";
+
+		DblToStrAuto = lib.DblToStrAuto;
+
+		/**
+		 * @type{SourceAPI}
+		 */
+		let api = {};
+		api.ClearStrategyParameterTable = ClearStrategyParameterTable;
+		api.AddStrategyParameterToTable = AddStrategyParameterToTable;
+		api.ClearOptimizTable = ClearOptimizTable;
+		api.AddResultToOptimizTable = AddResultToOptimizTable;
+		api.InitTradeTable = InitTradeTable;
+		api.AddTradesToTable = AddTradesToTable;
+		api.GetGeneticConfig = GetGeneticConfig;
+		api.SetSymbols = SetSymbols;
+		api.SetExchanges = SetExchanges;
+		api.AddQuotesChart = AddQuotesChart;
+		api.AddEquityChart = AddEquityChart;
+		api.ClearUserCharts = ClearUserCharts;
+		api.AddNewStatisticTableFromBody = AddNewStatisticTableFromBody;
+
+		api.SetLegendToChart = (chart, legendName, onClick)=>{
+			(/**@type{MultiSelectCheckboxes}*/chart["legend"])?.element.remove();
+			let legend = chart["legend"]= new MultiSelectCheckboxes(legendName, [], false, onClick);
+			chart.insertBefore(legend.element, null);
+			legend.element.style.marginTop= "25pt";
+			legend.element.style.position = "absolute";
+			$(legend.element).find("select")[0].style.opacity=0.7;
+			legend.element.style.zIndex = 999;
+			$(legend.element).find(".checkboxes")[0].style.border= "none"
+			$(legend.element).find(".checkboxes")[0].style.maxHeight= (chart.offsetHeight - 70)+"px";
+		}
+		api.AddLegendItemToChart = (chart, itemName, checked, color, onClick=undefined)=> {
+			(/**@type{MultiSelectCheckboxes}*/chart["legend"])?.push(itemName, checked, onClick, color);
+		}
+		Module.Run(api);
+
+	</script>
+
+
+</html>
